@@ -1,0 +1,11 @@
+doctrine_migrations:
+    migrations_paths:
+        'DoctrineMigrations': '%kernel.project_dir%/src/Migrations'
+    # namespace is arbitrary but should be different from App\Migrations
+    # as migrations classes should NOT be autoloaded
+    storage:
+        # Default (SQL table) metadata storage configuration
+        table_storage:
+            table_name: 'migration_versions'
+    services:
+        'Doctrine\Migrations\Version\MigrationFactory': 'App\Doctrine\Migrations\MigrationFactory'

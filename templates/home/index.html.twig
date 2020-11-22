@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ configs.seo_description }}">
+    <meta name="keywords" content="{{ configs.seo_keywords }}">
+    <meta name="author" content="{{ configs.seo_author }}">
+
+    <title>{{ configs.seo_title }}</title>
+
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
+    <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('img/favicon/57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('img/favicon/60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/favicon/72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/favicon/76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('img/favicon/114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('img/favicon/120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('img/favicon/144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('img/favicon/152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('img/favicon/180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('img/favicon/192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/favicon/32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/favicon/96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/favicon/16x16.png') }}">
+    <link rel="manifest" href="{{ asset('img/favicon/manifest.json') }}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ asset('img/favicon/144x144.png') }}">
+    <meta name="theme-color" content="#ffffff">
+
+</head>
+
+<body id="page-top">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top">
+        <span class="d-block d-lg-none">{{ configs.index_lastname }} {{ configs.index_firstname }}</span>
+        <span class="d-none d-lg-block">
+        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ asset('img/profile.jpg') }}" alt="">
+      </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#experience">Experience</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#education">Education</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#skills">Skills</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#interests">Interests</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid p-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="about">
+        <div class="w-100">
+            <h1 class="mb-0">{{ configs.index_firstname }}
+                <span class="text-primary">{{ configs.index_lastname }}</span>
+            </h1>
+            <div class="subheading mb-5">
+            </div>
+            <p class="lead mb-5">
+                {{ configs.index_description|nl2br }}
+            </p>
+            <div class="social-icons">
+                <a href="{{ configs.links_linkedin }}" target="_blank">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="{{ configs.links_github }}" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="experience">
+        <div class="w-100">
+            <h2 class="mb-5">Experience</h2>
+
+            {% for experience in experiences %}
+                <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                    <div class="resume-content">
+                        <h3 class="mb-0">{{ experience.title }}</h3>
+                        <div class="subheading mb-3">{{ experience.company }}</div>
+                        <p>{{ experience.description|nl2br }}</p>
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">{{ experience.start|date('F Y') }} - {% if experience.end %}{{ experience.end|date('F Y') }}{% else %}Present{% endif %}</span>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="education">
+        <div class="w-100">
+            <h2 class="mb-5">Education</h2>
+
+            {% for education in educations %}
+                <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+                    <div class="resume-content">
+                        <h3 class="mb-0">{{ education.title }}</h3>
+                        <div class="subheading mb-3">{{ education.school }}</div>
+                        <p>{{ education.description|nl2br }}</p>
+                    </div>
+                    <div class="resume-date text-md-right">
+                        <span class="text-primary">{{ education.start|date('F Y') }} - {% if education.end %}{{ education.end|date('F Y') }}{% else %}Present{% endif %}</span>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="skills">
+        <div class="w-100">
+            <h2 class="mb-5">Skills</h2>
+
+            <div class="subheading mb-3">Programming Languages &amp; Tools</div>
+            <ul class="list-inline dev-icons">
+                <li class="list-inline-item">
+                    <i class="fab fa-java"></i>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fab fa-php"></i>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fab fa-symfony"></i>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fab fa-js"></i>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fab fa-html5"></i>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fab fa-css3-alt"></i>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fab fa-python"></i>
+                </li>
+                <li class="list-inline-item">
+                    <i class="fab fa-docker"></i>
+                </li>
+            </ul>
+
+            <div class="subheading mb-3">Workflow</div>
+            <ul class="fa-ul mb-0 row">
+                {% for skill in skills %}
+                <li class="col-md-6 col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6">{{ skill.title }}</div>
+                        <div class="col-sm-6">
+                        {% for i in 1..skill.rate %}
+                            {% if skill.rate > 0 %}
+                            <span class="fas fa-star" aria-hidden="true"></span>
+                            {% endif %}
+                        {% endfor %}
+                        {% for i in (skill.rate + 1)..5 %}
+                            {% if skill.rate < 5 %}
+                            <span class="far fa-star" aria-hidden="true"></span>
+                            {% endif %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="interests">
+        <div class="w-100">
+            <h2 class="mb-5">Interests</h2>
+            <p>{{ configs.index_interests|nl2br }} </p>
+        </div>
+    </section>
+
+    <hr class="m-0">
+
+    <section class="resume-section p-3 p-lg-5 d-flex align-items-center" id="contact">
+        <div class="w-100">
+            <h2 class="mb-5">Contact</h2>
+            {% include 'home/contact_form.html.twig' with {'form': contactForm} only %}
+        </div>
+    </section>
+</div>
+
+<script src="{{ asset('build/js/app.js') }}"></script>
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+</body>
+
+</html>

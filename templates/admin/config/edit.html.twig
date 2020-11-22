@@ -1,0 +1,37 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+{% form_theme form with ['@EasyAdmin/crud/form_theme.html.twig'] %}
+
+{% trans_default_domain 'EasyAdminBundle' %}
+
+
+{% block content_title %}Configs{% endblock %}
+
+{% block page_actions %}
+    {% for action in actions %}
+        {{ include(action.templatePath, { action: action }, with_context = false) }}
+    {% endfor %}
+{% endblock %}
+
+{% block main %}
+    {% block edit_form %}
+        <div class="content-panel">
+            <div class="content-panel-body with-background without-header without-footer">
+                {{ form(form) }}
+            </div>
+        </div>
+    {% endblock edit_form %}
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function() {
+            $(document).on('click', '.action-saveAndContinue', function () {
+                console.log('hello world');
+                $('form').submit();
+            })
+            $('.ea-edit-form').areYouSure({ 'message': '{{ 'form.are_you_sure'|trans({}, 'EasyAdminBundle')|e('js') }}' });
+        });
+    </script>
+{% endblock %}

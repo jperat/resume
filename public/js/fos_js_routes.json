@@ -1,0 +1,1 @@
+{"base_url":"","routes":{"home_contact":{"tokens":[["text","\/contact"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["POST"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":[]}

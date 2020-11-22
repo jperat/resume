@@ -1,0 +1,31 @@
+security:
+    encoders:
+        App\Model\User:
+            algorithm: auto
+
+    providers:
+        users:
+            id: App\Security\UserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        admin:
+            pattern: ^/admin
+            provider: users
+            anonymous: ~
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: /admin
+                always_use_default_target_path: true
+            logout:
+                path:   app_logout
+        main:
+            pattern: ^/
+            anonymous: true
+    access_control:
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }

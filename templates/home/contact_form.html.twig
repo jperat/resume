@@ -1,0 +1,53 @@
+{{ form_start(form, {'attr': {'class': 'contact-form'}}) }}
+<div class="row">
+    {% if success is defined %}
+        <div class="col-12">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Your message has been send
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endif %}
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {% if form_errors(form.name) %}
+            <div class="alert-danger" role="alert">
+                {{ form_errors(form.name) }}
+            </div>
+            {% endif %}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="form-group">
+            {% if form_errors(form.email) %}
+                <div class="alert-danger" role="alert">
+                    {{ form_errors(form.email) }}
+                </div>
+            {% endif %}
+            {{ form_widget(form.email) }}
+        </div>
+        <div class="form-group">
+            {% if form_errors(form.phone) %}
+            <div class="alert-danger" role="alert">
+                {{ form_errors(form.phone) }}
+            </div>
+            {% endif %}
+            {{ form_widget(form.phone) }}
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div class="form-group">
+            {% if form_errors(form.message) %}
+                <div class="alert-danger" role="alert">
+                    {{ form_errors(form.message) }}
+                </div>
+            {% endif %}
+            {{ form_widget(form.message) }}
+        </div>
+    </div>
+    <div class="col pull-right">
+        <button type="submit" class="btn btn-secondary pull-right">Send</button>
+    </div>
+</div>
+{{ form_end(form) }}
