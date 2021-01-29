@@ -50,6 +50,6 @@ asset:
 
 build:
 	docker build -t resume:latest .
-	docker save -o resume.tar resume:latests
+	docker save -o resume.tar resume:latest
 
 .PHONY: test build init
