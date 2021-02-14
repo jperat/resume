@@ -3,7 +3,7 @@
     {% if success is defined %}
         <div class="col-12">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                Your message has been send
+                {{ 'Your message has been send'|trans }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -47,7 +47,7 @@
         </div>
     </div>
     <div class="col pull-right">
-        <button type="submit" class="btn btn-secondary pull-right">Send</button>
+        <button type="submit" class="btn btn-secondary pull-right">{{ 'Send'|trans }}</button>
     </div>
 </div>
 {{ form_end(form) }}

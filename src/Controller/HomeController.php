@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class HomeController
@@ -31,7 +32,7 @@ class HomeController extends AbstractController
      *
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(TranslatorInterface $translator): Response
     {
         $experiences = $this->getDoctrine()->getRepository(Experience::class)->findBy(['active' => true], ['start' => 'DESC', 'end' => 'DESC']);
         $educations = $this->getDoctrine()->getRepository(Education::class)->findBy(['active' => true], ['end' => 'DESC', 'start' => 'DESC']);
