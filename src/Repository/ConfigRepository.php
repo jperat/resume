@@ -17,6 +17,13 @@ class ConfigRepository extends ServiceEntityRepository
         parent::__construct($registry, Config::class);
     }
 
+    public function getValueConfig(string $key, string $default = null): string
+    {
+        /** @var Config $config */
+        $config = $this->findOneBy(['key' => $key]);
+        return $config ? $config->getValue() : $default;
+    }
+
     public function getUser(): User
     {
         $configs = $this->createQueryBuilder('c')
@@ -58,6 +65,14 @@ class ConfigRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->where("c.key IN ('login_email', 'login_password')")
+            ->getQuery()
+            ->execute();
+    }
+
+    public function getThemeFormConfig(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where("c.key IN ('color_primary', 'color_secondary', 'border_circle', 'skill_icons', 'color_social_hover', 'locale')")
             ->getQuery()
             ->execute();
     }

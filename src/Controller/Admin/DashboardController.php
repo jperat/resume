@@ -49,6 +49,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoRoute('Config', 'fas fa-cogs', 'app_admin_config_index');
         yield MenuItem::linktoRoute('Login', 'fas fa-sign-in-alt', 'app_admin_config_login');
         yield MenuItem::linktoRoute('Picture', 'fas fa-camera', 'app_admin_config_picture');
+        yield MenuItem::linktoRoute('Theme', 'fas fa-paint-brush', 'app_admin_config_theme');
     }
 
 }

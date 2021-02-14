@@ -74,6 +74,18 @@ class ConfigController extends AbstractController
         return $this->getRender($form);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     *
+     * @Route("/theme")
+     */
+    public function theme(Request $request): Response
+    {
+        $form = $this->getForm(ConfigsType::class, $request, $this->entityManager->getRepository(Config::class)->getThemeFormConfig());
+        return $this->getRender($form);
+    }
+
     private function getRender($form): Response
     {
         return $this->render(

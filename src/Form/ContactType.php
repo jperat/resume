@@ -10,9 +10,18 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContactType extends AbstractType
 {
+
+    /** @var TranslatorInterface */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -20,26 +29,26 @@ class ContactType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Name',
+                    'placeholder' => $this->translator->trans('Name'),
                 ]
             ])
             ->add('phone', TelType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Phone',
+                    'placeholder' => $this->translator->trans('Phone'),
                     'require' => false,
                 ]
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Email',
+                    'placeholder' => $this->translator->trans('Email'),
                 ]
             ])
             ->add('message', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control contact-form-message',
-                    'placeholder' => 'Message',
+                    'placeholder' => $this->translator->trans('Message'),
                 ]
             ]);
     }
