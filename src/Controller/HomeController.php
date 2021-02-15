@@ -34,7 +34,7 @@ class HomeController extends AbstractController
     {
         $experiences = $this->getDoctrine()->getRepository(Experience::class)->findBy(['active' => true], ['start' => 'DESC', 'end' => 'DESC']);
         $educations = $this->getDoctrine()->getRepository(Education::class)->findBy(['active' => true], ['end' => 'DESC', 'start' => 'DESC']);
-        $skills = $this->getDoctrine()->getRepository(Skill::class)->findBy(['active' => true], ['rate' => 'ASC']);
+        $skills = $this->getDoctrine()->getRepository(Skill::class)->findBy(['active' => true], ['rate' => 'DESC']);
         $contactForm = $this->createForm(ContactType::class, new Contact());
         $params = [
             'experiences' => $experiences,
