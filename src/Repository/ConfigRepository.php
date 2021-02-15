@@ -17,7 +17,7 @@ class ConfigRepository extends ServiceEntityRepository
         parent::__construct($registry, Config::class);
     }
 
-    public function getValueConfig(string $key, string $default = null): string
+    public function getValueConfig(string $key, string $default = null): ?string
     {
         /** @var Config $config */
         $config = $this->findOneBy(['key' => $key]);
