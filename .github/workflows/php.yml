@@ -38,6 +38,8 @@ jobs:
         with:
           php_version: '7.4'
           version: 8
+          configuration: phpunit.dist.xml
+          args: --coverage-text
 
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
