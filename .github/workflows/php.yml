@@ -34,6 +34,11 @@ jobs:
           version: 2
           args: --profile --ignore-platform-reqs
 
+      - name: PHPStan
+        uses: php-actions/phpstan@v2
+        with:
+          php_version: '7.4'
+
       - name: PHPUnit tests
         uses: php-actions/phpunit@v2
         with:
