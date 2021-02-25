@@ -36,6 +36,7 @@
     "require-dev": {
         "symfony/debug-pack": "^v1.0.9",
         "symfony/maker-bundle": "^1.11",
+        "symfony/phpunit-bridge": "^5.2",
         "symfony/profiler-pack": "^v1.0.5",
         "symfony/test-pack": "^v1.0.7",
         "symfony/web-server-bundle": "^v4.4.19"
