@@ -4,7 +4,7 @@
     "name": "jperat/resume",
     "description": "Simple basice resume template",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4 || ^8",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "easycorp/easyadmin-bundle": "^3.2.5",
