@@ -1,6 +1,8 @@
 {
     "type": "project",
     "license": "proprietary",
+    "name": "jperat/resume",
+    "description": "Simple basice resume template",
     "require": {
         "php": "^7.4",
         "ext-ctype": "*",
