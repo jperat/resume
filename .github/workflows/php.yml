@@ -35,11 +35,10 @@ jobs:
 
       - name: PHPUnit tests
         uses: php-actions/phpunit@v2
-        run: cp phpunit.xml.dist phpunit.xml
         with:
           php_version: '7.4'
           version: 8
-          configuration: phpunit.xml
+          configuration: phpunit.xml.dist
           args: --coverage-text
 
 
