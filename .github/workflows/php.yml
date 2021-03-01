@@ -35,6 +35,8 @@ jobs:
 
       - name: PHPStan Static Analysis
         uses: php-actions/phpstan@v2
+        with:
+          configuration: phpstan.neon
 
       - name: PHPUnit tests
         uses: php-actions/phpunit@v2
