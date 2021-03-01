@@ -34,6 +34,7 @@
         "symfony/yaml": "^5.2.3"
     },
     "require-dev": {
+        "phpstan/phpstan": "^0.12.80",
         "symfony/debug-pack": "^v1.0.9",
         "symfony/maker-bundle": "^1.11",
         "symfony/phpunit-bridge": "^5.2",
