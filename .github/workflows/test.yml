@@ -33,6 +33,11 @@ jobs:
           version: 2
           args: --profile --ignore-platform-reqs
 
+      #      - name: PHPStan Static Analysis
+      #        uses: php-actions/phpstan@v2
+      #        with:
+      #          configuration: phpstan.neon
+
       - name: PHPUnit tests
         uses: php-actions/phpunit@v2
         with:
