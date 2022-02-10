@@ -3,28 +3,28 @@ all: test
 init: install
 
 install:
-	docker-compose -p resume build
-	docker-compose -p resume up -d
-	docker-compose -p resume exec symfony composer install
-	docker-compose -p resume exec symfony npm install
-	docker-compose -p resume exec symfony make migrate
+	docker-compose -f docker/docker-compose.yml -p resume build
+	docker-compose -f docker/docker-compose.yml -p resume up -d
+	docker-compose -f docker/docker-compose.yml -p resume exec symfony composer install
+	docker-compose -f docker/docker-compose.yml -p resume exec symfony npm install
+	docker-compose -f docker/docker-compose.yml -p resume exec symfony make migrate
 
 start: ## Start the project
-	docker-compose -p resume up -d
+	docker-compose -f docker/docker-compose.yml -p resume up -d
 	@echo "started on http://127.0.0.1:8000/"
 	@echo "PMA on http://127.0.0.1:8002/"
 
 stop:
-	docker-compose -p resume down --remove-orphans
+	docker-compose -f docker/docker-compose.yml -p resume down --remove-orphans
 
 cc:
-	docker-compose -p resume exec symfony bin/console cache:clear
+	docker-compose -f docker/docker-compose.yml -p resume exec symfony bin/console cache:clear
 
 wp-watch: #WebPack Encore Watch
 	./node_modules/.bin/encore dev --watch
 
 console: ## Start a symfony console
-	docker-compose -p resume exec symfony bash
+	docker-compose -f docker/docker-compose.yml -p resume exec symfony bash
 
 migrate:
 	php bin/console doctrine:database:create --if-not-exists
@@ -37,7 +37,7 @@ test:
 	bin/phpunit tests/ -v --coverage-clover var/coverage/phpunit.coverage.xml --log-junit var/coverage/phpunit.report.xml
 
 build:
-	docker-compose build
+	docker-compose -f docker/docker-compose.yml build
 
 docker-compose:
 	docker-compose -p resume -f docker/docker-compose.yml pull

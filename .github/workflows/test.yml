@@ -2,40 +2,54 @@ name: PHP Composer
 
 on:
   push:
-    branches: [ main, master, cicd ]
-  pull_request:
-    branches: [ main, master, cicd ]
+  <<<<<<< Updated upstream
+branches: [ main, master, cicd ]
+pull_request:
+  branches: [ main, master, cicd ]
+  =======
+branches: [ main ]
+pull_request:
+  branches: [ main ]
+  >>>>>>> Stashed changes
 
 jobs:
-  test:
-
+  phpunit:
+    name: "PHPUnit ${{ matrix.php-version }}"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version: [ 8.1 ]
 
     steps:
       - uses: actions/checkout@v2
 
+  <<<<<<< Updated upstream
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v2
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+- name: Cache Composer packages
+  id: composer-cache
+  uses: actions/cache@v2
+  with:
+    path: vendor
+    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+    restore-keys: |
+      ${{ runner.os }}-php-
 
-      - name: Install dependencies
-        uses: php-actions/composer@v5
-        with:
-          php_version: '7.4'
-          version: 2
-          args: --profile --ignore-platform-reqs
+- name: Install dependencies
+  =======
+- name: "Install dependencies with Composer"
+  >>>>>>> Stashed changes
+uses: php-actions/composer@v5
+with:
+  php_version: ${{ matrix.php_version }}
+  version: 2
+  args: --profile --ignore-platform-reqs
 
-      #      - name: PHPStan Static Analysis
-      #        uses: php-actions/phpstan@v2
-      #        with:
+  <<<<<<< Updated upstream
+#      - name: PHPStan Static Analysis
+#        uses: php-actions/phpstan@v2
+#        with:
       #          configuration: phpstan.neon
 
       - name: PHPUnit tests
@@ -47,8 +61,24 @@ jobs:
           args: --coverage-text
 
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+# Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+# Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    # - name: Run test suite
-    #   run: composer run-script test
+# - name: Run test suite
+#   run: composer run-script test
+  =======
+- name: "Run PHPUnit"
+  uses: php-actions/phpunit@v2
+  with:
+    php_version: ${{ matrix.php_version }}
+    php_extensions: xdebug
+    version: 9.5
+    configuration: tests/phpunit/phpunit.xml
+    bootstrap: vendor/autoload.php
+    args: --coverage-text=coverage.xml
+
+- name: "Send coverage to Codecov"
+  uses: "codecov/codecov-action@v2"
+  with:
+    file: "coverage.xml"
+  >>>>>>> Stashed changes

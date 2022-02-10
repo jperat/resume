@@ -7,7 +7,7 @@ namespace App\Security;
 use App\Model\User;
 use App\Repository\ConfigRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -26,7 +26,7 @@ class UserProvider implements UserProviderInterface
         if ($user->getUsername() === $username) {
             return $user;
         }
-        throw new UsernameNotFoundException();
+        throw new UserNotFoundException();
     }
 
     public function refreshUser(UserInterface $user)
