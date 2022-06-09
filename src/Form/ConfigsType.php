@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Form;
-
 
 use App\Entity\Config;
 use App\Form\DataTransformer\ConfigTransformer;
@@ -17,22 +15,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class ConfigsType extends AbstractType
 {
-
-    private ConfigRepository $configRepository;
     private ConfigTransformer $configTransformer;
 
-    public function __construct(ConfigRepository $configRepository, ConfigTransformer $configTransformer)
+    public function __construct(ConfigTransformer $configTransformer)
     {
-        $this->configRepository = $configRepository;
         $this->configTransformer = $configTransformer;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Config $config */
         foreach ($options['data'] as $config) {
             $builder->add(
-                $config->getId(),
+                (string) $config->getId(),
                 $this->getType($config->getType()),
                 [
                     'attr' => [
@@ -49,15 +44,21 @@ class ConfigsType extends AbstractType
         $builder->addModelTransformer($this->configTransformer);
     }
 
-    private function getType($type): string
+    private function getType(string $type): string
     {
         switch ($type) {
-            case 'string': return TextType::class;
-            case 'text': return TextareaType::class;
-            case 'link': return UrlType::class;
-            case 'email': return EmailType::class;
-            case 'password': return PasswordType::class;
-            default: return TextType::class;
+            case 'string':
+                return TextType::class;
+            case 'text':
+                return TextareaType::class;
+            case 'link':
+                return UrlType::class;
+            case 'email':
+                return EmailType::class;
+            case 'password':
+                return PasswordType::class;
+            default:
+                return TextType::class;
         }
     }
 }

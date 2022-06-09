@@ -36,6 +36,13 @@ test:
 	bin/console doctrine:fixtures:load -n
 	bin/phpunit tests/ -v --coverage-clover var/coverage/phpunit.coverage.xml --log-junit var/coverage/phpunit.report.xml
 
+lint:
+	./vendor/bin/phpcs
+	./vendor/bin/phpstan analyse -c tests/phpstan.neon
+
+format:
+	./vendor/bin/phpcbf
+
 build:
 	docker-compose -f docker/docker-compose.yml build
 

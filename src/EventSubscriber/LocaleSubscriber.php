@@ -5,34 +5,21 @@ namespace App\EventSubscriber;
 use App\Repository\ConfigRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\LocaleSwitcher;
 
 class LocaleSubscriber implements EventSubscriberInterface
 {
-
-    /** @var TranslatorInterface  */
-    private $translator;
-
-    /** @var ConfigRepository */
-    private $configRepository;
-
-    /** @var string $defaultLocale */
-    private $defaultLocale;
-
     public function __construct(
-        string $defaultLocale,
-        TranslatorInterface $translator,
-        ConfigRepository $configRepository
-    ){
-        $this->defaultLocale = $defaultLocale;
-        $this->translator = $translator;
-        $this->configRepository = $configRepository;
+        private string $defaultLocale,
+        private LocaleSwitcher $localeSwitcher,
+        private ConfigRepository $configRepository
+    ) {
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
-        $this->translator->setLocale(
-            $this->configRepository->getValueConfig('locale', $this->defaultLocale ?? 'en')
+        $this->localeSwitcher->setLocale(
+            (string) $this->configRepository->getValueConfig('locale', $this->defaultLocale)
         );
     }
 

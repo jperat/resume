@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Tests\unit\Security;
-
 
 use App\Entity\Config;
 use App\Model\User;
@@ -12,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class UserProviderTest extends TestCase
 {
-
     private UserProvider $userProvider;
 
 

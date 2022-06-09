@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Repository;
-
 
 use App\Entity\Config;
 use App\Model\User;
@@ -11,7 +9,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class ConfigRepository extends ServiceEntityRepository
 {
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Config::class);
@@ -21,7 +18,7 @@ class ConfigRepository extends ServiceEntityRepository
     {
         /** @var Config $config */
         $config = $this->findOneBy(['key' => $key]);
-        return $config ? $config->getValue() : $default;
+        return $config != null ? $config->getValue() : $default;
     }
 
     public function getUser(): User
@@ -71,10 +68,18 @@ class ConfigRepository extends ServiceEntityRepository
 
     public function getThemeFormConfig(): array
     {
-        return $this->createQueryBuilder('c')
-            ->where("c.key IN ('color_primary', 'color_secondary', 'border_circle', 'skill_icons', 'color_social_hover', 'locale')")
+        $qb = $this->createQueryBuilder('c');
+        return $qb->where(
+            $qb->expr()->in('c.key', [
+                'color_primary',
+                'color_secondary',
+                'border_circle',
+                'skill_icons',
+                'color_social_hover',
+                'locale'
+            ])
+        )
             ->getQuery()
             ->execute();
     }
-
 }

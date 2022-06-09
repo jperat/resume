@@ -38,14 +38,9 @@ class ExperienceCrudController extends AbstractCrudController
         $active = BooleanField::new('active');
         $id = IntegerField::new('id', 'ID');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$title, $company, $description, $start, $end, $active];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
+        if (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $company, $title, $description, $start, $end, $active];
-        } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$title, $company, $description, $start, $end, $active];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$title, $company, $description, $start, $end, $active];
         }
+        return [$title, $company, $description, $start, $end, $active];
     }
 }

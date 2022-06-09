@@ -32,7 +32,16 @@ yarn-error.log
 .idea/
 ###< PhpStorm ###
 
+###> VsCode ###
+.vscode/
+###< VsCode ###
+
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###

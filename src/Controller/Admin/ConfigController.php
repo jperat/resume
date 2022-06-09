@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Controller\Admin;
 
-
-use App\Entity\Config;
 use App\Form\ConfigsType;
 use App\Form\PictureType;
+use App\Repository\ConfigRepository;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -20,50 +18,40 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Class ConfigController
  * @package App\Controller\Admin
- *
- * @Route("/admin/config")
  */
+#[Route('/admin/config')]
 class ConfigController extends AbstractController
 {
-    private TranslatorInterface $translator;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(TranslatorInterface $translator, EntityManagerInterface $entityManager)
-    {
-        $this->translator = $translator;
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private TranslatorInterface $translator,
+        private ConfigRepository $configRepository,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/index")
-     */
+    #[Route('/index')]
     public function index(Request $request): Response
     {
-        $form = $this->getForm(ConfigsType::class, $request, $this->entityManager->getRepository(Config::class)->getIndexFormConfig());
+        $form = $this->getForm(
+            ConfigsType::class,
+            $request,
+            $this->configRepository->getIndexFormConfig()
+        );
         return $this->getRender($form);
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/login")
-     */
+    #[Route('/login')]
     public function login(Request $request): Response
     {
-        $form = $this->getForm(ConfigsType::class, $request, $this->entityManager->getRepository(Config::class)->getLoginFormConfig());
+        $form = $this->getForm(
+            ConfigsType::class,
+            $request,
+            $this->configRepository->getLoginFormConfig()
+        );
         return $this->getRender($form);
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/picture")
-     */
+    #[Route('/picture')]
     public function picture(Request $request, PictureService $pictureService): Response
     {
         $form = $this->createForm(PictureType::class);
@@ -74,19 +62,18 @@ class ConfigController extends AbstractController
         return $this->getRender($form);
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/theme")
-     */
+    #[Route('/theme')]
     public function theme(Request $request): Response
     {
-        $form = $this->getForm(ConfigsType::class, $request, $this->entityManager->getRepository(Config::class)->getThemeFormConfig());
+        $form = $this->getForm(
+            ConfigsType::class,
+            $request,
+            $this->configRepository->getThemeFormConfig()
+        );
         return $this->getRender($form);
     }
 
-    private function getRender($form): Response
+    private function getRender(FormInterface $form): Response
     {
         return $this->render(
             'admin/config/edit.html.twig',
@@ -97,7 +84,7 @@ class ConfigController extends AbstractController
         );
     }
 
-    private function getForm(string $formType, Request $request, $values): FormInterface
+    private function getForm(string $formType, Request $request, array $values): FormInterface
     {
         $form = $this->createForm($formType, $values);
         $form->handleRequest($request);
@@ -113,7 +100,11 @@ class ConfigController extends AbstractController
 
     private function getEasyAdminActions(): array
     {
-        $editAction = Action::new(Action::SAVE_AND_CONTINUE, $this->translator->trans('action.save_and_continue', [], 'EasyAdminBundle'), 'far fa-edit')
+        $editAction = Action::new(
+            Action::SAVE_AND_CONTINUE,
+            $this->translator->trans('action.save_and_continue', [], 'EasyAdminBundle'),
+            'far fa-edit'
+        )
             ->addCssClass('btn btn-secondary action-save')
             ->displayAsButton()
             ->setHtmlAttributes(['type' => 'submit', 'name' => 'ea[newForm][btn]', 'value' => 'saveAndContinue'])

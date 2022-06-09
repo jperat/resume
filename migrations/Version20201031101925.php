@@ -4,34 +4,32 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Doctrine\UserPasswordHasherAwareInterface;
 use App\Model\User;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20201031101925 extends AbstractMigration implements ContainerAwareInterface
+final class Version20201031101925 extends AbstractMigration implements UserPasswordHasherAwareInterface
 {
+    private UserPasswordHasherInterface $userPasswordHasher;
 
-    private $container;
-
-    public function setContainer(ContainerInterface $container = null)
+    public function setUserPasswordHasher(UserPasswordHasherInterface $userPasswordHasher): void
     {
-        $this->container = $container;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
-
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
-        $password = $this->container->get('security.password_encoder')->encodePassword(new User(), 'password');
+        $password = $this->userPasswordHasher->hashPassword(new User(), 'password');
         $this->addSql('CREATE TABLE contact (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, phone VARCHAR(20) DEFAULT NULL, email VARCHAR(255) NOT NULL, message TEXT NOT NULL, date DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE education (id INT AUTO_INCREMENT NOT NULL, school VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, start DATE NOT NULL, end DATE DEFAULT NULL, active TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE experience (id INT AUTO_INCREMENT NOT NULL, company VARCHAR(255) NOT NULL, title VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, start DATE NOT NULL, end DATE DEFAULT NULL, active TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -51,7 +49,7 @@ final class Version20201031101925 extends AbstractMigration implements Container
         $this->addSql("INSERT INTO config (`key`, value, type) VALUES ('login_password', '$password', 'password')");
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE contact');

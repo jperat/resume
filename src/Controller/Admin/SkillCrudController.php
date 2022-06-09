@@ -34,14 +34,9 @@ class SkillCrudController extends AbstractCrudController
         $id = IntegerField::new('id', 'ID');
         $position = IntegerField::new('position');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$title, $rate, $active];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
+        if (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $title, $rate, $position, $active];
-        } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$title, $rate, $active];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$title, $rate, $active];
         }
+        return [$title, $rate, $active];
     }
 }
