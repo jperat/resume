@@ -1,16 +1,10 @@
-name: PHP Composer
+name: Test
 
 on:
   push:
-  <<<<<<< Updated upstream
-branches: [ main, master, cicd ]
-pull_request:
-  branches: [ main, master, cicd ]
-  =======
-branches: [ main ]
-pull_request:
-  branches: [ main ]
-  >>>>>>> Stashed changes
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   phpunit:
@@ -23,62 +17,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-  <<<<<<< Updated upstream
-      - name: Validate composer.json and composer.lock
-        run: composer validate
+      - name: "Install dependencies with Composer"
+        uses: php-actions/composer@v5
+        with:
+          php_version: ${{ matrix.php_version }}
+          version: 2
+          args: --profile --ignore-platform-reqs
 
-- name: Cache Composer packages
-  id: composer-cache
-  uses: actions/cache@v2
-  with:
-    path: vendor
-    key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-    restore-keys: |
-      ${{ runner.os }}-php-
-
-- name: Install dependencies
-  =======
-- name: "Install dependencies with Composer"
-  >>>>>>> Stashed changes
-uses: php-actions/composer@v5
-with:
-  php_version: ${{ matrix.php_version }}
-  version: 2
-  args: --profile --ignore-platform-reqs
-
-  <<<<<<< Updated upstream
-#      - name: PHPStan Static Analysis
-#        uses: php-actions/phpstan@v2
-#        with:
-      #          configuration: phpstan.neon
-
-      - name: PHPUnit tests
+      - name: "Run PHPUnit"
         uses: php-actions/phpunit@v2
         with:
-          php_version: '7.4'
-          version: 8
-          configuration: phpunit.xml.dist
-          args: --coverage-text
+          php_version: ${{ matrix.php_version }}
+          php_extensions: xdebug
+          version: 9.5
+          configuration: tests/phpunit/phpunit.xml
+          bootstrap: vendor/autoload.php
+          args: --coverage-text=coverage.xml
 
-
-# Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-# Docs: https://getcomposer.org/doc/articles/scripts.md
-
-# - name: Run test suite
-#   run: composer run-script test
-  =======
-- name: "Run PHPUnit"
-  uses: php-actions/phpunit@v2
-  with:
-    php_version: ${{ matrix.php_version }}
-    php_extensions: xdebug
-    version: 9.5
-    configuration: tests/phpunit/phpunit.xml
-    bootstrap: vendor/autoload.php
-    args: --coverage-text=coverage.xml
-
-- name: "Send coverage to Codecov"
-  uses: "codecov/codecov-action@v2"
-  with:
-    file: "coverage.xml"
-  >>>>>>> Stashed changes
+      - name: "Send coverage to Codecov"
+        uses: "codecov/codecov-action@v2"
+        with:
+          file: "coverage.xml"
