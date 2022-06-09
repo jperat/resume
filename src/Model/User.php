@@ -1,22 +1,21 @@
 <?php
 
-
 namespace App\Model;
 
-
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public ?string $password;
-    public ?string $email;
+    public string $email;
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_ADMIN'];
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -29,23 +28,23 @@ class User implements UserInterface
         $this->password = $password;
     }
 
-    public function getSalt()
+    public function getSalt(): string
     {
         return '';
     }
 
-    public function getUsername()
+    public function getUserIdentifier(): string
     {
         return $this->email;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // TODO: Implement eraseCredentials() method.
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getEmail(): ?string
     {
@@ -53,11 +52,10 @@ class User implements UserInterface
     }
 
     /**
-     * @param string|null $email
+     * @param string $email
      */
-    public function setEmail(?string $email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
-
 }

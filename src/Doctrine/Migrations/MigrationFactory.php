@@ -1,48 +1,42 @@
 <?php
 
-
 namespace App\Doctrine\Migrations;
 
-
+use App\Doctrine\UserPasswordHasherAwareInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\Migrations\AbstractMigration;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class MigrationFactory implements \Doctrine\Migrations\Version\MigrationFactory
 {
-    /** @var Connection */
-    private $connection;
+    private Connection $connection;
+    private LoggerInterface $logger;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
-    /** @var LoggerInterface */
-    private $logger;
-
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-
-    public function __construct(Connection $connection, LoggerInterface $logger, ContainerInterface $container)
-    {
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        UserPasswordHasherInterface $userPasswordHasher
+    ) {
         $this->connection = $connection;
-        $this->logger     = $logger;
-        $this->container = $container;
+        $this->logger = $logger;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
-    public function createVersion(string $migrationClassName) : AbstractMigration
+    public function createVersion(string $migrationClassName): AbstractMigration
     {
+        /** @var  AbstractMigration */
         $migration = new $migrationClassName(
             $this->connection,
             $this->logger
         );
 
         // or you can ommit this check
-        if ($migration instanceof ContainerAwareInterface) {
-            $migration->setContainer($this->container);
+        if ($migration instanceof UserPasswordHasherAwareInterface) {
+            $migration->setUserPasswordHasher($this->userPasswordHasher);
         }
 
         return $migration;
     }
-
 }

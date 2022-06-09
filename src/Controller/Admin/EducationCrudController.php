@@ -38,14 +38,9 @@ class EducationCrudController extends AbstractCrudController
         $active = Field::new('active');
         $id = IntegerField::new('id', 'ID');
 
-        if (Crud::PAGE_INDEX === $pageName) {
-            return [$title, $school, $description, $start, $end, $active];
-        } elseif (Crud::PAGE_DETAIL === $pageName) {
+        if (Crud::PAGE_DETAIL === $pageName) {
             return [$id, $school, $title, $description, $start, $end, $active];
-        } elseif (Crud::PAGE_NEW === $pageName) {
-            return [$title, $school, $description, $start, $end, $active];
-        } elseif (Crud::PAGE_EDIT === $pageName) {
-            return [$title, $school, $description, $start, $end, $active];
         }
+        return [$title, $school, $description, $start, $end, $active];
     }
 }

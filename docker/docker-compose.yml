@@ -1,9 +1,9 @@
-version: '3.2'
+version: '3.5'
 
 services:
   database:
     image: mysql:8
-    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
+    command: [ '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password' ]
     environment:
       MYSQL_ROOT_PASSWORD: pass
       MYSQL_DATABASE: resume
@@ -13,10 +13,13 @@ services:
       - 3307:3306
 
   symfony:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
     working_dir: /var/www/html
     volumes:
-      - ./:/var/www/html/:delegated
+      - ../:/var/www/html/:delegated
     ports:
       - 8000:80
 

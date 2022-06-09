@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Contact;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -23,16 +24,17 @@ class ContactCrudController extends AbstractCrudController
     {
         return $crud
             ->setEntityLabelInSingular('Contact')
-            ->setEntityLabelInPlural('Contact')
+            ->setEntityLabelInPlural('Contacts')
             ->setPageTitle(Crud::PAGE_INDEX, 'Contacts')
             ->setPageTitle(Crud::PAGE_DETAIL, 'Contact')
-            ->setPageTitle(Crud::PAGE_NEW, 'Ajouter %entity_label_singular%')
+            ->setPageTitle(Crud::PAGE_NEW, 'Add %entity_label_singular%')
             ->setSearchFields(['name', 'email', 'phone']);
     }
 
     public function configureActions(Actions $actions): Actions
     {
         return $actions
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->disable('new', 'edit');
     }
 
@@ -53,5 +55,6 @@ class ContactCrudController extends AbstractCrudController
         } elseif (Crud::PAGE_EDIT === $pageName) {
             return [$name, $phone, $email, $message, $date];
         }
+        return [];
     }
 }

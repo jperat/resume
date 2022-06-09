@@ -1,34 +1,42 @@
 <?php
 
-
 namespace App\Form\DataTransformer;
 
-
+use App\Entity\Config;
 use App\Model\User;
 use App\Repository\ConfigRepository;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ConfigTransformer implements DataTransformerInterface
 {
-
     private ConfigRepository $configRepository;
-    private UserPasswordEncoderInterface  $passwordEncoder;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(ConfigRepository $configRepository, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(ConfigRepository $configRepository, UserPasswordHasherInterface $userPasswordHasher)
     {
         $this->configRepository = $configRepository;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
-    public function transform($value)
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
+    public function transform(mixed $value): mixed
     {
+        return $value;
     }
 
-    public function reverseTransform($values)
+    /**
+     * @param mixed $values
+     * @return array
+     */
+    public function reverseTransform(mixed $values): mixed
     {
         $configs = [];
         foreach ($values as $key => $value) {
+            /** @var Config $config */
             $config = $this->configRepository->find($key);
             if ($config->getType() == 'password') {
                 $config->setValue($this->getPassword($value));
@@ -42,7 +50,6 @@ class ConfigTransformer implements DataTransformerInterface
 
     private function getPassword(string $password): string
     {
-        return $this->passwordEncoder->encodePassword(new User(), $password);
+        return $this->userPasswordHasher->hashPassword(new User(), $password);
     }
-
 }

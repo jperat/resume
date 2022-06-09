@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\Security;
-
 
 use App\Model\User;
 use App\Repository\ConfigRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -20,13 +18,13 @@ class UserProvider implements UserProviderInterface
         $this->configRepository = $configRepository;
     }
 
-    public function loadUserByUsername(string $username)
+    public function loadUserByIdentifier(string $username): UserInterface
     {
         $user = $this->configRepository->getUser();
-        if ($user->getUsername() === $username) {
+        if ($user->getUserIdentifier() === $username) {
             return $user;
         }
-        throw new UsernameNotFoundException();
+        throw new UserNotFoundException();
     }
 
     public function refreshUser(UserInterface $user)
@@ -34,13 +32,11 @@ class UserProvider implements UserProviderInterface
         if (!$user instanceof User) {
             throw new UnsupportedUserException();
         }
-        return $this->loadUserByUsername($user->getUsername());
+        return $this->loadUserByIdentifier($user->getUserIdentifier());
     }
 
     public function supportsClass(string $class)
     {
         return User::class === $class;
     }
-
-
 }

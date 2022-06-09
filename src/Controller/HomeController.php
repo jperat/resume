@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\Config;
 use App\Entity\Contact;
@@ -10,6 +8,10 @@ use App\Entity\Education;
 use App\Entity\Experience;
 use App\Entity\Skill;
 use App\Form\ContactType;
+use App\Repository\ConfigRepository;
+use App\Repository\EducationRepository;
+use App\Repository\ExperienceRepository;
+use App\Repository\SkillRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,40 +21,35 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class HomeController
  * @package App\Controller\Front
- *
- * @Route("/", name="home_")
  */
+#[Route('/', name:'home_')]
 class HomeController extends AbstractController
 {
-
-    /**
-     * @return array
-     *
-     * @Route("/", name="index")
-     */
-    public function index(): Response
-    {
-        $experiences = $this->getDoctrine()->getRepository(Experience::class)->findBy(['active' => true], ['start' => 'DESC', 'end' => 'DESC']);
-        $educations = $this->getDoctrine()->getRepository(Education::class)->findBy(['active' => true], ['end' => 'DESC', 'start' => 'DESC']);
-        $skills = $this->getDoctrine()->getRepository(Skill::class)->findBy(['active' => true], ['rate' => 'DESC']);
+    #[Route('/', name:'index')]
+    public function index(
+        ExperienceRepository $experienceRepository,
+        EducationRepository $educationRepository,
+        SkillRepository $skillRepository,
+        ConfigRepository $configRepository
+    ): Response {
+        $experiences = $experienceRepository
+            ->findBy(['active' => true], ['start' => 'DESC', 'end' => 'DESC']);
+        $educations = $educationRepository
+            ->findBy(['active' => true], ['end' => 'DESC', 'start' => 'DESC']);
+        $skills = $skillRepository->findBy(['active' => true], ['rate' => 'DESC']);
         $contactForm = $this->createForm(ContactType::class, new Contact());
         $params = [
             'experiences' => $experiences,
             'educations' => $educations,
             'contactForm' => $contactForm->createView(),
             'skills' => $skills,
-            'configs' => $this->getDoctrine()->getRepository(Config::class)->getIndexConfig()
+            'configs' => $configRepository->getIndexConfig()
         ];
         return $this->render('/home/index.html.twig', $params);
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/contact", name="contact", methods={"POST"}, options={"expose"=true})
-     */
-    public function contact(Request $request, EntityManagerInterface $entityManager) :Response
+    #[Route('/contact', name:'contact', methods:['POST'], options:['expose' => 'true'])]
+    public function contact(Request $request, EntityManagerInterface $entityManager): Response
     {
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
@@ -69,11 +66,7 @@ class HomeController extends AbstractController
         return $this->render('/home/contact_form.html.twig', $params);
     }
 
-    /**
-     * @return Response
-     *
-     * @Route("/sitemap.xml", name="sitemap", methods={"GET"})
-     */
+    #[Route('/sitemap.xml', name:'sitemap', methods:['GET'])]
     public function siteMap(): Response
     {
         $response = new Response();
@@ -81,16 +74,11 @@ class HomeController extends AbstractController
         return $this->render('/home/sitemap.xml.twig', [], $response);
     }
 
-    /**
-     * @return Response
-     *
-     * @Route("/robots.txt", name="robots", methods={"GET"})
-     */
+    #[Route('/robots.txt', name:'robots', methods:['GET'])]
     public function robots(): Response
     {
         $response = new Response();
         $response->headers->set('Content-Type', 'text/txt');
         return $this->render('/home/robots.txt.twig', [], $response);
     }
-
 }

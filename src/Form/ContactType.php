@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Form;
-
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -14,7 +12,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContactType extends AbstractType
 {
-
     /** @var TranslatorInterface */
     private $translator;
 
@@ -23,7 +20,7 @@ class ContactType extends AbstractType
         $this->translator = $translator;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
