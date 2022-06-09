@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: "Install dependencies with Composer"
         uses: php-actions/composer@v5
         with:
@@ -30,7 +30,7 @@ jobs:
           php_version: ${{ matrix.php_version }}
           php_extensions: xdebug
           version: 9.5
-          configuration: tests/phpunit/phpunit.xml
+          configuration: phpunit.xml.dist
           bootstrap: vendor/autoload.php
           args: --coverage-text=coverage.xml
 
