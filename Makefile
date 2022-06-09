@@ -31,10 +31,9 @@ migrate:
 	php bin/console doctrine:migration:migrate -q
 
 test:
-	cp phpunit.xml.dist phpunit.xml
 	bin/console doc:schem:up --force
 	bin/console doctrine:fixtures:load -n
-	bin/phpunit tests/ -v --coverage-clover var/coverage/phpunit.coverage.xml --log-junit var/coverage/phpunit.report.xml
+	./vendor/bin/phpunit tests/ -v --coverage-clover phpunit.coverage.xml --log-junit phpunit.report.xml
 
 lint:
 	./vendor/bin/phpcs

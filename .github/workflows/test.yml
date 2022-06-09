@@ -30,11 +30,6 @@ jobs:
           php_version: ${{ matrix.php_version }}
           php_extensions: xdebug
           version: 9.5
-          configuration: phpunit.xml.dist
+          configuration: tests/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
-          args: --coverage-text=coverage.xml
-
-      - name: "Send coverage to Codecov"
-        uses: "codecov/codecov-action@v2"
-        with:
-          file: "coverage.xml"
+          args: --coverage-text
