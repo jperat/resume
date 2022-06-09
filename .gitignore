@@ -39,6 +39,7 @@ yarn-error.log
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+phpunit.report.xml
 ###< phpunit/phpunit ###
 
 ###> squizlabs/php_codesniffer ###

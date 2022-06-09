@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: "Install dependencies with Composer"
         uses: php-actions/composer@v5
         with:
@@ -32,4 +32,9 @@ jobs:
           version: 9.5
           configuration: tests/phpunit/phpunit.xml
           bootstrap: vendor/autoload.php
-          args: --coverage-text
+          args: --coverage-text=coverage.xml
+
+      - name: "Send coverage to Codecov"
+        uses: "codecov/codecov-action@v2"
+        with:
+          file: "coverage.xml"
